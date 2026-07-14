@@ -269,4 +269,4 @@ npm run lint      # Lint with Next.js ESLint
 
 ## License
 
-MIT
+All rights reserved. See [LICENSE](LICENSE).
