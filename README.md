@@ -270,3 +270,7 @@ npm run lint      # Lint with Next.js ESLint
 ## License
 
 All rights reserved. See [LICENSE](LICENSE).
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=nirholas/memescope-monday-directory&type=Date)](https://www.star-history.com/#nirholas/memescope-monday-directory&Date)
