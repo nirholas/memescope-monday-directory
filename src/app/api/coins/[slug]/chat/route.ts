@@ -2,17 +2,19 @@ import { NextResponse } from 'next/server';
 import { getChatMessages, addChatMessage, getCoinBySlug } from '@/lib/data';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const { searchParams } = new URL(request.url);
   const after = searchParams.get('after') ?? undefined;
 
-  const messages = await getChatMessages(params.slug, after);
+  const messages = await getChatMessages(slug, after);
   return NextResponse.json({ messages });
 }
 
-export async function POST(request: Request, { params }: { params: { slug: string } }) {
+export async function POST(request: Request, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   try {
-    const coin = await getCoinBySlug(params.slug);
+    const coin = await getCoinBySlug(slug);
     if (!coin) {
       return NextResponse.json({ error: 'Coin not found' }, { status: 404 });
     }
@@ -31,7 +33,7 @@ export async function POST(request: Request, { params }: { params: { slug: strin
       return NextResponse.json({ error: 'Message too long (max 280 chars)' }, { status: 400 });
     }
 
-    const message = await addChatMessage(params.slug, author, text.trim(), user?.id);
+    const message = await addChatMessage(slug, author, text.trim(), user?.id);
     return NextResponse.json({ message }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

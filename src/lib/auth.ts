@@ -71,7 +71,7 @@ export async function createSession(userId: string): Promise<string> {
     createdAt: new Date().toISOString(),
   });
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -86,7 +86,7 @@ export async function createSession(userId: string): Promise<string> {
 export async function destroySession(): Promise<void> {
   await initDb();
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
   if (token) {
     await db.delete(sessions).where(eq(sessions.token, token));
@@ -98,7 +98,7 @@ export async function getCurrentUser(): Promise<(Omit<User, 'passwordHash'>) | n
   try {
     await initDb();
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get(SESSION_COOKIE)?.value;
     if (!token) return null;
 

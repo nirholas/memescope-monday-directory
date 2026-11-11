@@ -18,11 +18,12 @@ import { formatDate } from '@/lib/utils';
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function CoinDetailPage({ params }: PageProps) {
-  const coin = await getCoinBySlug(params.slug);
+  const { slug } = await params;
+  const coin = await getCoinBySlug(slug);
 
   if (!coin) {
     notFound();

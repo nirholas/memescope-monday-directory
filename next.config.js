@@ -5,9 +5,7 @@ const nextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['@libsql/client'],
-  },
+  serverExternalPackages: ['@libsql/client'],
 };
 
 module.exports = nextConfig;

@@ -9,10 +9,11 @@ import type { Chain, CoinType } from '@/lib/types';
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
-  searchParams: { q?: string; chain?: string; sort?: string; category?: string; type?: string };
+  searchParams: Promise<{ q?: string; chain?: string; sort?: string; category?: string; type?: string }>;
 }
 
-export default async function CoinsPage({ searchParams }: PageProps) {
+export default async function CoinsPage({ searchParams: searchParamsPromise }: PageProps) {
+  const searchParams = await searchParamsPromise;
   const allCoins = await getApprovedCoins();
 
   let coins = [...allCoins];
